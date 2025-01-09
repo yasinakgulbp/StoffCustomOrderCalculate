@@ -1,35 +1,41 @@
-document.getElementById('calculateBtn').addEventListener('click', function() {
+document.addEventListener('DOMContentLoaded', function() {
+    // Form submit olayını engelle
+    const calculatorForm = document.querySelector('.form-section form');
+    if (calculatorForm) {
+        calculatorForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleCalculation();
+        });
+    }
+
+    // Hesaplama butonu işlevselliği
+    const calculateBtn = document.getElementById('calculateBtn');
+    if (calculateBtn) {
+        calculateBtn.addEventListener('click', handleCalculation);
+    }
+});
+
+function handleCalculation() {
     if (!validateInputs()) {
         return;
     }
     
-    // Show loading state
-    this.classList.add('loading');
-    this.textContent = 'Hesaplanıyor...';
+    const btn = document.getElementById('calculateBtn');
+    btn.classList.add('loading');
+    btn.textContent = 'Hesaplanıyor...';
     
-    setTimeout(() => {
+    try {
         calculateCosts();
-        
-        // Remove loading state
-        this.classList.remove('loading');
-        this.textContent = 'Hesapla';
-        
-        // Show success message
-        const successMsg = document.querySelector('.success-message') || 
-                          document.createElement('div');
-        successMsg.className = 'success-message';
-        successMsg.textContent = 'Hesaplama başarıyla tamamlandı!';
-        successMsg.style.display = 'block';
-        
-        if (!document.querySelector('.success-message')) {
-            document.querySelector('.results-section').prepend(successMsg);
-        }
-        
-        setTimeout(() => {
-            successMsg.style.display = 'none';
-        }, 3000);
-    }, 500);
-});
+        // Sonuçlar bölümünü görünür yap
+        document.querySelector('.results-section').style.display = 'block';
+    } catch (error) {
+        console.error('Hesaplama hatası:', error);
+        alert('Hesaplama sırasında bir hata oluştu. Lütfen tüm değerleri kontrol edin.');
+    } finally {
+        btn.classList.remove('loading');
+        btn.textContent = 'Hesapla';
+    }
+}
 
 function calculateCosts() {
     // Tüm ölçüleri topla
@@ -55,8 +61,11 @@ function calculateCosts() {
     // Toplam maliyet
     const totalCost = materialCost + shippingCost + CONSTANTS.customOrderFee;
     
-    // Önerilen satış fiyatı (kar marjı %30 olarak varsayıldı)
-    const suggestedPrice = totalCost / (1 - CONSTANTS.etsyCommission) * 1.3;
+    // Kar oranını al
+    const profitRate = Number(document.getElementById('profitRate').value) / 100;
+    
+    // Önerilen satış fiyatı
+    const suggestedPrice = calculateSuggestedPrice(totalCost, profitRate);
 
     // Sonuçları göster
     displayResults({
@@ -65,9 +74,17 @@ function calculateCosts() {
         shippingCost,
         totalCost,
         suggestedPrice,
-        measurements, // Ölçümleri de gönderiyoruz
-        totalWeight  // Toplam ağırlığı da gönderiyoruz
+        measurements,
+        totalWeight,
+        profitRate
     });
+
+    // Sonuçlar bölümüne scroll
+    document.querySelector('.results-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+function calculateSuggestedPrice(totalCost, profitRate) {
+    return totalCost / (1 - CONSTANTS.etsyCommission) * (1 + profitRate);
 }
 
 function getMeasurements(prefix) {
@@ -88,12 +105,17 @@ function calculateTotalArea(measurements) {
 }
 
 function calculateMaterialCost(totalM2) {
+    // Seçilen finish tipini al
+    const selectedFinish = document.getElementById('finishType').value;
+    const finishCost = CONSTANTS.finishOptions[selectedFinish];
+    
     return totalM2 * CONSTANTS.woodPricePerM2 +
-           totalM2 * CONSTANTS.varnishCostPerM2 +
+           totalM2 * finishCost +
            CONSTANTS.boxCost +
            CONSTANTS.packagingCost +
            CONSTANTS.vidaCost +
-           CONSTANTS.sarfMalzeme;
+           CONSTANTS.sarfMalzeme +
+           CONSTANTS.monthlyExpensePerOrder;
 }
 
 function displayResults(results) {
@@ -121,14 +143,31 @@ function displayResults(results) {
     );
     document.getElementById('areaCalculationDetails').innerHTML = areaDetails.join('\n');
 
-    // Malzeme maliyeti detayları
+    // Seçilen finish tipini al
+    const selectedFinish = document.getElementById('finishType').value;
+    const finishCost = CONSTANTS.finishOptions[selectedFinish];
+    const finishName = document.getElementById('finishType').options[
+        document.getElementById('finishType').selectedIndex
+    ].text;
+
     const materialDetails = [
-        `Panel Maliyeti: ${results.totalM2.toFixed(2)} m² × $${CONSTANTS.woodPricePerM2} = $${(results.totalM2 * CONSTANTS.woodPricePerM2).toFixed(2)}`,
-        `Vernik Maliyeti: ${results.totalM2.toFixed(2)} m² × $${CONSTANTS.varnishCostPerM2} = $${(results.totalM2 * CONSTANTS.varnishCostPerM2).toFixed(2)}`,
-        `Kutu Maliyeti: $${CONSTANTS.boxCost}`,
-        `Paketleme Maliyeti: $${CONSTANTS.packagingCost}`,
-        `Vida Maliyeti: $${CONSTANTS.vidaCost}`,
-        `Sarf Malzeme: $${CONSTANTS.sarfMalzeme}`,
+        'PANEL MALİYETİ:',
+        `  Alan: ${results.totalM2.toFixed(2)} m²`,
+        `  Birim Fiyat: $${CONSTANTS.woodPricePerM2}`,
+        `  Toplam: $${(results.totalM2 * CONSTANTS.woodPricePerM2).toFixed(2)}`,
+        '',
+        'FINISH MALİYETİ:',
+        `  Seçilen Finish: ${finishName}`,
+        `  Alan: ${results.totalM2.toFixed(2)} m²`,
+        `  Birim Fiyat: $${finishCost}`,
+        `  Toplam: $${(results.totalM2 * finishCost).toFixed(2)}`,
+        '',
+        'DİĞER MALİYETLER:',
+        `  Paketleme: $${CONSTANTS.packagingCost}`,
+        `  Vida: $${CONSTANTS.vidaCost}`,
+        `  Sarf Malzeme: $${CONSTANTS.sarfMalzeme}`,
+        `  Sipariş Başına Düşen Aylık Gider: $${CONSTANTS.monthlyExpensePerOrder.toFixed(2)}`,
+        '',
         '------------------------',
         `TOPLAM MALZEME MALİYETİ = $${results.materialCost.toFixed(2)}`
     ];
@@ -149,6 +188,7 @@ function displayResults(results) {
         `Malzeme Maliyeti: $${results.materialCost.toFixed(2)}`,
         `Kargo Maliyeti: $${results.shippingCost.toFixed(2)}`,
         `Özel Sipariş Ücreti: $${CONSTANTS.customOrderFee}`,
+        `Sipariş Başına Düşen Aylık Gider: $${CONSTANTS.monthlyExpensePerOrder.toFixed(2)}`,
         '------------------------',
         `TOPLAM MALİYET = $${results.totalCost.toFixed(2)}`
     ];
@@ -158,9 +198,9 @@ function displayResults(results) {
     const suggestedPriceDetails = [
         `Toplam Maliyet: $${results.totalCost.toFixed(2)}`,
         `Etsy Komisyonu: ${(CONSTANTS.etsyCommission * 100)}%`,
-        `Kar Marjı: 30%`,
+        `Kar Marjı: ${(results.profitRate * 100)}%`,
         '------------------------',
-        `Hesaplama: $${results.totalCost.toFixed(2)} ÷ (1 - ${CONSTANTS.etsyCommission}) × 1.3`,
+        `Hesaplama: $${results.totalCost.toFixed(2)} ÷ (1 - ${CONSTANTS.etsyCommission}) × ${1 + results.profitRate}`,
         `ÖNERİLEN SATIŞ FİYATI = $${results.suggestedPrice.toFixed(2)}`
     ];
     document.getElementById('suggestedPriceCalculationDetails').innerHTML = suggestedPriceDetails.join('\n');
@@ -169,15 +209,18 @@ function displayResults(results) {
 // Input validation
 function validateInputs() {
     let isValid = true;
-    const inputs = document.querySelectorAll('input[type="number"]');
+    const requiredInputs = [
+        'panelCount', 'panelWidth', 'panelLength',
+        'profitRate'
+    ];
     
-    inputs.forEach(input => {
-        const value = input.value.trim();
-        if (value === '' || value < 0) {
+    requiredInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (!input || input.value.trim() === '' || isNaN(input.value) || Number(input.value) < 0) {
             input.classList.add('error');
             isValid = false;
             
-            // Show error message
+            // Hata mesajını göster
             const errorMsg = input.parentElement.querySelector('.error-message') || 
                            document.createElement('div');
             errorMsg.className = 'error-message';

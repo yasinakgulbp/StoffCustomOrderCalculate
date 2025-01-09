@@ -23,6 +23,10 @@
                 <i class="fas fa-cog"></i>
                 <span>Sabit Değerler</span>
             </a>
+            <a href="#" data-page="expenses">
+                <i class="fas fa-chart-pie"></i>
+                <span>Aylık Giderler</span>
+            </a>
         </nav>
         <div class="theme-toggle">
             <button id="themeToggle">
@@ -40,7 +44,10 @@
         <a href="#" data-page="settings">
             <i class="fas fa-cog"></i>
         </a>
-        <button id="mobileThemeToggle">
+        <a href="#" data-page="expenses">
+            <i class="fas fa-chart-pie"></i>
+        </a>
+        <button id="mobileThemeToggle" title="Tema Değiştir">
             <i class="fas fa-moon"></i>
         </button>
     </div>
@@ -52,49 +59,72 @@
                 <h1>Mobilya Maliyet Hesaplayıcı</h1>
                 
                 <div class="form-section">
-                    <h2>Ürün Ölçüleri</h2>
-                    
-                    <!-- Paneller -->
-                    <div class="measurement-group">
-                        <h3>Paneller</h3>
-                        <div class="input-group">
-                            <input type="number" id="panelCount" placeholder="Adet">
-                            <input type="number" id="panelWidth" placeholder="Genişlik">
-                            <input type="number" id="panelLength" placeholder="Uzunluk">
+                    <form id="calculatorForm" onsubmit="return false;">
+                        <h2>Ürün Ölçüleri</h2>
+                        
+                        <!-- Paneller -->
+                        <div class="measurement-group">
+                            <h3>Paneller</h3>
+                            <div class="input-group">
+                                <input type="number" id="panelCount" placeholder="Adet">
+                                <input type="number" id="panelWidth" placeholder="Genişlik">
+                                <input type="number" id="panelLength" placeholder="Uzunluk">
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Dikmeler -->
-                    <div class="measurement-group">
-                        <h3>Dikmeler</h3>
-                        <div class="input-group">
-                            <input type="number" id="supportCount" placeholder="Adet">
-                            <input type="number" id="supportWidth" placeholder="Genişlik">
-                            <input type="number" id="supportLength" placeholder="Uzunluk">
+                        <!-- Dikmeler -->
+                        <div class="measurement-group">
+                            <h3>Dikmeler</h3>
+                            <div class="input-group">
+                                <input type="number" id="supportCount" placeholder="Adet">
+                                <input type="number" id="supportWidth" placeholder="Genişlik">
+                                <input type="number" id="supportLength" placeholder="Uzunluk">
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Raflar -->
-                    <div class="measurement-group">
-                        <h3>Raflar</h3>
-                        <div class="input-group">
-                            <input type="number" id="shelfCount" placeholder="Adet">
-                            <input type="number" id="shelfWidth" placeholder="Genişlik">
-                            <input type="number" id="shelfLength" placeholder="Uzunluk">
+                        <!-- Raflar -->
+                        <div class="measurement-group">
+                            <h3>Raflar</h3>
+                            <div class="input-group">
+                                <input type="number" id="shelfCount" placeholder="Adet">
+                                <input type="number" id="shelfWidth" placeholder="Genişlik">
+                                <input type="number" id="shelfLength" placeholder="Uzunluk">
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Kapaklar -->
-                    <div class="measurement-group">
-                        <h3>Kapaklar</h3>
-                        <div class="input-group">
-                            <input type="number" id="doorCount" placeholder="Adet">
-                            <input type="number" id="doorWidth" placeholder="Genişlik">
-                            <input type="number" id="doorLength" placeholder="Uzunluk">
+                        <!-- Kapaklar -->
+                        <div class="measurement-group">
+                            <h3>Kapaklar</h3>
+                            <div class="input-group">
+                                <input type="number" id="doorCount" placeholder="Adet">
+                                <input type="number" id="doorWidth" placeholder="Genişlik">
+                                <input type="number" id="doorLength" placeholder="Uzunluk">
+                            </div>
                         </div>
-                    </div>
 
-                    <button id="calculateBtn">Hesapla</button>
+                        <!-- Finish Seçenekleri -->
+                        <div class="finish-options">
+                            <h3>Finish Seçenekleri</h3>
+                            <select id="finishType" class="finish-select" title="Finish Seçenekleri">
+                                <option value="unfinished">Unfinished (İşlemsiz)</option>
+                                <option value="varnishedClear">Varnished - Clear (Vernikli - Şeffaf)</option>
+                                <option value="oilClear">0% VOC Oil - Clear (Yağ - Şeffaf)</option>
+                                <option value="oilWalnut">0% VOC Oil - Walnut (Yağ - Ceviz)</option>
+                                <option value="oilBlack">0% VOC Oil - Black (Yağ - Siyah)</option>
+                            </select>
+                        </div>
+
+                        <!-- Kar ve İndirim Oranları -->
+                        <div class="profit-options">
+                            <h3>Kar Oranı</h3>
+                            <div class="rate-input">
+                                <label for="profitRate">Kar Oranı (%)</label>
+                                <input type="number" id="profitRate" value="30" min="0" max="100" step="1">
+                            </div>
+                        </div>
+
+                        <button type="submit" id="calculateBtn">Hesapla</button>
+                    </form>
                 </div>
 
                 <div class="results-section">
@@ -173,14 +203,6 @@
                     <div class="setting-group">
                         <h3>Malzeme Maliyetleri</h3>
                         <div class="setting-item">
-                            <label for="varnishCostPerM2">m² Başına Vernik Maliyeti ($)</label>
-                            <input type="number" id="varnishCostPerM2" step="0.1">
-                        </div>
-                        <div class="setting-item">
-                            <label for="boxCost">Kutu Maliyeti ($)</label>
-                            <input type="number" id="boxCost">
-                        </div>
-                        <div class="setting-item">
                             <label for="packagingCost">Paketleme Maliyeti ($)</label>
                             <input type="number" id="packagingCost">
                         </div>
@@ -197,6 +219,10 @@
                     <div class="setting-group">
                         <h3>Diğer Maliyetler</h3>
                         <div class="setting-item">
+                            <label for="monthlyExpensePerOrder">Sipariş Başına Düşen Aylık Gider ($)</label>
+                            <input type="number" id="monthlyExpensePerOrder" step="0.01" readonly>
+                        </div>
+                        <div class="setting-item">
                             <label for="shippingCostPerKg">Kg Başına Kargo Maliyeti ($)</label>
                             <input type="number" id="shippingCostPerKg" step="0.01">
                         </div>
@@ -210,9 +236,122 @@
                         </div>
                     </div>
 
+                    <div class="setting-group">
+                        <h3>Finish Maliyetleri (m² başına)</h3>
+                        <div class="setting-item">
+                            <label for="unfinished">Unfinished (İşlemsiz) ($)</label>
+                            <input type="number" id="unfinished" step="0.01">
+                        </div>
+                        <div class="setting-item">
+                            <label for="varnishedClear">Varnished - Clear ($)</label>
+                            <input type="number" id="varnishedClear" step="0.01">
+                        </div>
+                        <div class="setting-item">
+                            <label for="oilClear">0% VOC Oil - Clear ($)</label>
+                            <input type="number" id="oilClear" step="0.01">
+                        </div>
+                        <div class="setting-item">
+                            <label for="oilWalnut">0% VOC Oil - Walnut ($)</label>
+                            <input type="number" id="oilWalnut" step="0.01">
+                        </div>
+                        <div class="setting-item">
+                            <label for="oilBlack">0% VOC Oil - Black ($)</label>
+                            <input type="number" id="oilBlack" step="0.01">
+                        </div>
+                    </div>
+
                     <button id="saveSettings" class="primary-button">
                         <i class="fas fa-save"></i> Kaydet
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sabit Giderler Sayfası -->
+        <div class="page" id="expenses-page" style="display: none;">
+            <div class="expenses-wrapper">
+                <h1>Aylık Sabit Giderler</h1>
+                
+                <div class="expenses-form">
+                    <div class="expense-group">
+                        <h3>Personel Giderleri</h3>
+                        <div class="expense-item">
+                            <label for="workerSalaries">İşçi Maaşları ($)</label>
+                            <input type="number" id="workerSalaries" step="0.01">
+                        </div>
+                        <div class="expense-item">
+                            <label for="insurancePremiums">Sigorta Primleri ($)</label>
+                            <input type="number" id="insurancePremiums" step="0.01">
+                        </div>
+                        <div class="expense-item">
+                            <label for="mealExpenses">Yemek Giderleri ($)</label>
+                            <input type="number" id="mealExpenses" step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="expense-group">
+                        <h3>İşletme Giderleri</h3>
+                        <div class="expense-item">
+                            <label for="rent">Kira ($)</label>
+                            <input type="number" id="rent" step="0.01">
+                        </div>
+                        <div class="expense-item">
+                            <label for="electricity">Elektrik ($)</label>
+                            <input type="number" id="electricity" step="0.01">
+                        </div>
+                        <div class="expense-item">
+                            <label for="water">Su ($)</label>
+                            <input type="number" id="water" step="0.01">
+                        </div>
+                        <div class="expense-item">
+                            <label for="internet">İnternet ($)</label>
+                            <input type="number" id="internet" step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="expense-group">
+                        <h3>Diğer Giderler</h3>
+                        <div class="expense-item">
+                            <label for="accounting">Muhasebe ($)</label>
+                            <input type="number" id="accounting" step="0.01">
+                        </div>
+                        <div class="expense-item">
+                            <label for="maintenance">Bakım Onarım ($)</label>
+                            <input type="number" id="maintenance" step="0.01">
+                        </div>
+                        <div class="expense-item">
+                            <label for="other">Diğer Giderler ($)</label>
+                            <input type="number" id="other" step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="expense-group">
+                        <h3>Sipariş Bilgileri</h3>
+                        <div class="expense-item">
+                            <label for="monthlyOrders">Aylık Ortalama Sipariş Sayısı</label>
+                            <input type="number" id="monthlyOrders" min="1">
+                        </div>
+                    </div>
+
+                    <button id="calculateExpenses" class="primary-button">
+                        <i class="fas fa-calculator"></i> Hesapla
+                    </button>
+
+                    <div class="expense-results" style="display: none;">
+                        <h3>Hesaplama Sonuçları</h3>
+                        <div class="result-item">
+                            <span>Toplam Aylık Gider:</span>
+                            <span id="totalMonthlyExpense">$0</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Sipariş Başına Eklenmesi Gereken Tutar:</span>
+                            <span id="expensePerOrder">$0</span>
+                        </div>
+                        <div class="expense-details">
+                            <h4>Detaylı Analiz</h4>
+                            <div id="expenseDetails" class="calculation-steps"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -221,5 +360,6 @@
     <script src="constants.js"></script>
     <script src="settings.js"></script>
     <script src="calculator.js"></script>
+    <script src="expenses.js"></script>
 </body>
 </html> 

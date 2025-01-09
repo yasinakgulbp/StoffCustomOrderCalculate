@@ -42,15 +42,36 @@ function loadSettings() {
             input.value = value;
         }
     }
+    
+    // Finish seçeneklerini yükle
+    for (const [key, value] of Object.entries(CONSTANTS.finishOptions)) {
+        const input = document.getElementById(key);
+        if (input) {
+            input.value = value;
+        }
+    }
 }
 
 function saveSettings() {
     // Tüm değerleri topla
-    const newConstants = {};
+    const newConstants = { ...CONSTANTS };
+    
+    // Normal sabitleri kaydet
     for (const key of Object.keys(CONSTANTS)) {
+        if (key !== 'finishOptions') {
+            const input = document.getElementById(key);
+            if (input) {
+                newConstants[key] = Number(input.value);
+            }
+        }
+    }
+    
+    // Finish seçeneklerini kaydet
+    newConstants.finishOptions = {};
+    for (const key of Object.keys(CONSTANTS.finishOptions)) {
         const input = document.getElementById(key);
         if (input) {
-            newConstants[key] = Number(input.value);
+            newConstants.finishOptions[key] = Number(input.value);
         }
     }
 

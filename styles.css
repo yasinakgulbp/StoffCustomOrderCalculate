@@ -560,3 +560,218 @@ input:focus {
 body * {
     transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
 } 
+
+/* Finish Seçenekleri Stilleri */
+.finish-options {
+    background: var(--measurement-bg);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.finish-options h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.finish-select {
+    width: 100%;
+    padding: 12px;
+    background: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-size: 1em;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    padding-right: 2.5em;
+}
+
+.finish-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+    outline: none;
+}
+
+[data-theme="dark"] .finish-select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+/* Responsive tasarım için */
+@media (max-width: 768px) {
+    .finish-options {
+        padding: 15px;
+    }
+    
+    .finish-select {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+} 
+
+/* Aylık Giderler Sayfası Stilleri */
+.expenses-wrapper {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--box-shadow);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.expenses-wrapper h1 {
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 2em;
+}
+
+.expense-group {
+    background: var(--measurement-bg);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.expense-group h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.expense-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.expense-item label {
+    flex: 1;
+    color: var(--text-color);
+    font-size: 0.95em;
+}
+
+.expense-item input {
+    width: 200px;
+    padding: 12px;
+    background: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.expense-item input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+    outline: none;
+}
+
+.expense-results {
+    margin-top: 30px;
+    background: var(--results-bg);
+    border-radius: var(--border-radius);
+    padding: 20px;
+}
+
+.expense-results h3 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.expense-details {
+    margin-top: 20px;
+}
+
+.expense-details h4 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+/* Responsive tasarım için */
+@media (max-width: 768px) {
+    .expenses-wrapper {
+        padding: 20px;
+    }
+
+    .expense-group {
+        padding: 15px;
+    }
+
+    .expense-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .expense-item input {
+        width: 100%;
+    }
+
+    .expense-results {
+        padding: 15px;
+    }
+} 
+
+/* Kar ve İndirim Oranları Stilleri */
+.profit-options {
+    background: var(--measurement-bg);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.profit-options h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.rate-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rate-input label {
+    color: var(--text-color);
+    font-size: 0.95em;
+    flex: 1;
+}
+
+.rate-input input {
+    width: 120px;
+    padding: 12px;
+    background: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.rate-input input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+    outline: none;
+}
+
+/* Responsive tasarım için */
+@media (max-width: 768px) {
+    .rate-input {
+        max-width: 100%;
+    }
+} 
