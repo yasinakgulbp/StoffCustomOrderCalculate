@@ -73,14 +73,11 @@ function calculateMonthlyExpenses() {
     // Sipariş başına düşen gider
     const expensePerOrder = totalMonthlyExpense / monthlyOrders;
 
-    // CONSTANTS'ı güncelle
-    CONSTANTS.monthlyExpensePerOrder = expensePerOrder;
-
     // Sonuçları göster
     displayExpenseResults(totalMonthlyExpense, expensePerOrder, expenses);
 
-    // CONSTANTS'ı local storage'a kaydet
-    localStorage.setItem('CONSTANTS', JSON.stringify(CONSTANTS));
+    // Sadece hesaplama sonuçlarını göster, CONSTANTS'ı güncelleme
+    // localStorage.setItem('CONSTANTS', JSON.stringify(CONSTANTS));
 }
 
 function getExpenseValue(id) {

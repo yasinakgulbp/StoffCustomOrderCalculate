@@ -32,6 +32,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Kaydet butonu işlevselliği
     document.getElementById('saveSettings').addEventListener('click', saveSettings);
+
+    // monthlyExpensePerOrder input'unu readonly olmaktan çıkar
+    const monthlyExpenseInput = document.getElementById('monthlyExpensePerOrder');
+    if (monthlyExpenseInput) {
+        monthlyExpenseInput.removeAttribute('readonly');
+    }
 });
 
 function loadSettings() {
@@ -40,6 +46,10 @@ function loadSettings() {
         const input = document.getElementById(key);
         if (input) {
             input.value = value;
+            // monthlyExpensePerOrder için readonly özelliğini kaldır
+            if (key === 'monthlyExpensePerOrder') {
+                input.removeAttribute('readonly');
+            }
         }
     }
     
