@@ -60,14 +60,47 @@ body {
 }
 
 .logo {
-    padding: 20px;
+    padding: 12px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 8px;
     font-size: 1.2em;
     color: var(--primary-color);
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color);
     margin-bottom: 20px;
+    width: 100%;
+}
+
+.logo-img {
+    max-width: 110px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 10px 20px;
+    width: 100%;
+}
+
+.main-logo {
+    max-width: 120px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.main-header h1 {
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    margin: 0;
+    padding: 0;
 }
 
 .sidebar nav {
@@ -356,6 +389,44 @@ body {
 
     #calculateBtn {
         padding: 12px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .logo-img {
+        max-width: 100px;
+    }
+    
+    .main-logo {
+        max-width: 100px;
+    }
+    
+    .main-header {
+        justify-content: center;
+        text-align: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 8px 15px;
+    }
+    
+    .main-header h1 {
+        font-size: 1.4rem;
+        text-align: center;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .logo-img {
+        max-width: 90px;
+    }
+    
+    .main-logo {
+        max-width: 90px;
+    }
+    
+    .main-header h1 {
+        font-size: 1.2rem;
     }
 }
 

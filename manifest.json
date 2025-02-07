@@ -1,7 +1,7 @@
 {
-  "name": "Mobilya Maliyet Hesaplayıcı",
-  "short_name": "Hesaplayıcı",
-  "description": "Mobilya maliyet ve fiyat hesaplama uygulaması",
+  "name": "Stöff Möbel - Maliyet Hesaplayıcı",
+  "short_name": "Stöff Möbel",
+  "description": "Özel mobilya siparişleri için maliyet hesaplama uygulaması",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobilya Maliyet Hesaplayıcı</title>
+    <title>Stöff Möbel - Maliyet Hesaplayıcı</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="theme.js" defer></script>
@@ -12,13 +12,13 @@
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Hesaplayıcı">
+    <meta name="apple-mobile-web-app-title" content="Stöff Möbel">
 </head>
 <body>
     <div class="sidebar">
         <div class="logo">
-            <i class="fas fa-calculator"></i>
-            <span>Mobilya Hesaplayıcı</span>
+            <img src="stoff-logo.png" alt="Stöff Möbel Logo" class="logo-img">
+            <!-- <span>Stöff Möbel</span> -->
         </div>
         <nav>
             <a href="#" class="active" data-page="calculator">
@@ -62,7 +62,10 @@
         <!-- Hesaplayıcı Sayfası -->
         <div class="page" id="calculator-page">
             <div class="calculator-wrapper">
-                <h1>Mobilya Maliyet Hesaplayıcı</h1>
+                <div class="main-header">
+                    <img src="stoff-logo.png" alt="Stöff Möbel Logo" class="main-logo">
+                    <h1>Maliyet Hesaplayıcı</h1>
+                </div>
                 
                 <div class="form-section">
                     <form id="calculatorForm" onsubmit="return false;">
@@ -381,4 +384,4 @@
         }
     </script>
 </body>
-</html> 
+</html>
